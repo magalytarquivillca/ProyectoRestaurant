@@ -8,6 +8,9 @@ fotografia_del_producto : {
         relativepath: String,
         pathfile:String   
     },
+
+
+    
 });
 
 var menu = mongoose.model("users", menuSchema);

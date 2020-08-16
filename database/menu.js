@@ -7,11 +7,8 @@ var menuSchema = new mongoose.Schema({
 fotografia_del_producto : {
         relativepath: String,
         pathfile:String   
-    },
-
-
-    
+    },  
 });
 
-var menu = mongoose.model("users", menuSchema);
+var menu = mongoose.model("menu", menuSchema);
 module.exports = menu;

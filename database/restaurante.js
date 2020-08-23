@@ -11,13 +11,13 @@ ubicacion:{
 },
 logo:{
 	pathfilel:String,
-	relativefilel:String
+	relativepathl:String
 },
 fechaderegistro:Date,
 fotolugar:
 {
 	pathfile:String,
-	relativefile:String
+	relativepath:String
 }
 });
 var restaurante=new mongoose.model('restaurant',restaurantSchema);

@@ -32,11 +32,11 @@ var c = (req, res, next) => {
             return;
         }
     }
-    res.status(403).json([error: "No tiene acceso"]);
+    res.status(403).json(["error: No tiene acceso"]);
     return;
     }
     catch(TokenExpiredError){
-        res.status(403).json([error: "El tiempo ha termiando"]);
+        res.status(403).json(["error: El tiempo ha termiando"]);
         return;
     }
 

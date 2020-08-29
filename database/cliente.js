@@ -4,6 +4,7 @@ var menuSchema = new mongoose.Schema({
     ApellidoP : String,
     ApellidoM : String,
     CI : String,
+    Correo : String,
 
 });
 

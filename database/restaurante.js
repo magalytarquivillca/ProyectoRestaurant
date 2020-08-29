@@ -1,6 +1,7 @@
+
 var mongoose =require('./connect');
 var restaurantSchema = new mongoose.Schema({
-nombre: String,
+nombreRestaurante: String,
 nit:String,
 propietario:String,
 calle:String,

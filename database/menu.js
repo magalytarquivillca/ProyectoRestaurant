@@ -1,7 +1,7 @@
 var mongoose = require("./connect");
 var menuSchema = new mongoose.Schema({
-    Nombre : String,
-    precio : String,
+    NombreMenu : String,
+    precioMenu : String,
     descripcion : String,
     fechaderegistro : String,
 fotografia_del_producto : {

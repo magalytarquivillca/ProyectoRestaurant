@@ -3,17 +3,22 @@ var router = express.Router();
 var USER = require("../database/restaurante");
 var fileUpload = require('express-fileupload');
 var sha1 = require('sha1');
+var validate=require('../utils/validate');
+var middleware=require('middleware');
 
 
 //SERVICIO POST
-router.post('/restaurant', async(req, res)  => {
+router.post('/restaurant',middleware, async(req, res)  => {
     var params = req.body;
-params["fechaderegistro"] = new Date();
-var coordenadas={};
-coordenadas['log']=params.longitud;
-coordenadas['lat']=params.latitud;
-params["ubicacion"]=coordenadas;
-
+    /*params["fechaderegistro"] = new Date();
+    var coordenadas={};
+    coordenadas['log']=params.longitud;
+    coordenadas['lat']=params.latitud;
+    params["ubicacion"]=coordenadas;*/
+    if (validate.validarRestaurant(params,USER.schema.obj)!="true") {
+            res.status(403).json(validate.validarRestaurant(params,USER.schema.obj));
+            return;
+    }
 var restaurante = new USER(params);
 var result = await restaurante.save();
 
@@ -22,7 +27,7 @@ res.status(200).json(result);
 
 //SERVICIO GET
 
-router.get("/restaurant", (req, res) => {
+router.get("/restaurant",middleware, (req, res) => {
     var params = req.query;
     console.log(params);
     var limit = 100;
@@ -47,7 +52,7 @@ router.get("/restaurant", (req, res) => {
  });
 
  //SERVICIO PATCH
- router.patch("/restaurant", (req, res) => {
+ router.patch("/restaurant",middleware, (req, res) => {
     if (req.query.id == null) {
     res.status(300).json({
   
@@ -66,7 +71,7 @@ router.get("/restaurant", (req, res) => {
 router.use(fileUpload({
     fileSize: 5 * 1024 * 1024
 }));
-router.put("/updatelogo", (req, res) => {
+router.put("/updatelogo",middleware, (req, res) => {
 
     var params = req.query;
     var bodydata = req.body;
@@ -106,7 +111,7 @@ router.put("/updatelogo", (req, res) => {
     });
 });
 
-router.put("/updatelugar", (req, res) => {
+router.put("/updatelugar",middleware, (req, res) => {
     var params = req.query;
     var bodydata = req.body;
     if (params.id == null) {
@@ -141,9 +146,36 @@ router.put("/updatelugar", (req, res) => {
     });
 });
 
+router.put("/user",middleware, async(req, res) => {
+    var params = req.query;
+    var datos = req.body;
+    if (params.id == null) {
+        res.status(300).json({msn: "El parámetro ID es necesario"});
+        return;
+    }
+
+    var changed = ["nombre", "propietario", "calle","telefono","ubicacion","logo","fotolugar"];
+    var keys = Object.keys(datos);
+    var actualizardato = {};
+    for (var i = 0; i < keys.length; i++) {
+        if (changed.indexOf(keys[i]) > -1) {
+            actualizardato[keys[i]] = datos[keys[i]];
+        }
+    }
+    USER.update({_id:  params.id}, {$set: actualizardato}, (err, docs) => {
+       if (err) {
+           res.status(500).json({msn: "Existen problemas al actualizar en la base de datos"});
+            return;
+        } 
+        res.status(200).json(docs);
+    });
+
+});
+
+
 //SERVICIO DELETE
 
-router.delete("/restaurant", async(req, res) => {
+router.delete("/restaurant",middleware, async(req, res) => {
     if (req.query.id == null) {
        res.status(300).json({
       msn:"id no existe"
@@ -157,9 +189,9 @@ router.delete("/restaurant", async(req, res) => {
 
 router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
-  });
+});
 
-  router.get("/getfile", async(req, res, next) => {
+router.get("/getfile",middleware, async(req, res, next) => {
     var params = req.query;
     if (params == null) {
         res.status(300).json({
@@ -188,4 +220,4 @@ router.get('/', function(req, res, next) {
 });
 
   
-  module.exports = router;
+module.exports = router;

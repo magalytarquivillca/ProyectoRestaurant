@@ -4,7 +4,7 @@ var menuSchema = new mongoose.Schema({
     precioMenu : String,
     descripcion : String,
     fechaderegistro : String,
-fotografia_del_producto : {
+	fotografia_del_producto : {
         relativepath: String,
         pathfile:String   
     },  

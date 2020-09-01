@@ -3,23 +3,28 @@ var router = express.Router();
 var USER = require("../database/menu");
 var fileUpload = require('express-fileupload');
 var sha1 = require('sha1');
+var validate=require('../utils/validate');
+var middleware=require('middleware');
 
 
 
 //SERVICIO POST
-router.post('/menu', async(req, res)  => {
+router.post('/menu',middleware, async(req, res)  => {
     var params = req.body;
-params["fechaderegistro"] = new Date();
+    //params["fechaderegistro"] = new Date();
+    if (validate.validarMenu(params,USER.schema.obj)!="true") {
+            res.status(403).json(validate.validarMenu(params,USER.schema.obj));
+            return;
+    }
+    var menu = new USER(params);
+    var result = await menu.save();
 
-var menu = new USER(params);
-var result = await menu.save();
-
-res.status(200).json(result);
+    res.status(200).json(result);
 });
 
 //SERVICIO GET
 
-router.get("/menu", (req, res) => {
+router.get("/menu",middleware, (req, res) => {
     var params = req.query;
     console.log(params);
     var limit = 100;
@@ -49,7 +54,7 @@ router.get("/menu", (req, res) => {
 router.use(fileUpload({
     fileSize: 5 * 1024 * 1024
 }));
-router.put("/updateproducto", (req, res) => {
+router.put("/updateproducto",middleware, (req, res) => {
 
     var params = req.query;
     var bodydata = req.body;
@@ -90,7 +95,7 @@ router.put("/updateproducto", (req, res) => {
 });
 //SERVICIO DELETE
 
-router.delete("/menu", async(req, res) => {
+router.delete("/menu",middleware, async(req, res) => {
     if (req.query.id == null) {
        res.status(300).json({
       msn:"id no existe"
@@ -101,8 +106,33 @@ router.delete("/menu", async(req, res) => {
    res.status(300).json(r);
 });
 
-//SERVICIO UPDATE
+//SERVICIO UPDATE 
+router.put("/menu",middleware,(req,res)=>{
+    var params=req.query;
+    var datos=req.body;
+    if (params.id==null) {
+        res.status(300).json({msn:" es necesario un id"});
+        return;
+    }
+    
+    var filtro=["Nombre","precio","descripcion","fotografia_del_producto"];
+    var llaves=Object.keys(datos);
+    var actualizado={};
+    for (var i = 0; i < llaves.length; i++) {
+        if (filtro.indexOf(llaves[i]>-1)) {
+            actualizado[llaves[i]]=datos[llaves[i]];
+        }
+    }
 
-  
-  module.exports = router;
-  
+    USER.update({_id: params.id},{$set:actualizado},(err,docs)=>{
+        if (err) { 
+            res.status(500).json({msn: "Existen problemas al actualizar en la base de datos"});
+            return;
+        } 
+        res.status(200).json(docs);});
+});
+
+
+module.exports = router;
+
+

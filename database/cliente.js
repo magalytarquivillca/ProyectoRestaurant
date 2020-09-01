@@ -6,6 +6,10 @@ var menuSchema = new mongoose.Schema({
     CI : String,
     Correo : String,
 
+    acceso:{
+    	method:String,
+    	services:String
+    }
 });
 
 var menu = mongoose.model("cliente", menuSchema);

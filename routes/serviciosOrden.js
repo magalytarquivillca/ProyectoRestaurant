@@ -4,7 +4,7 @@ var USER = require("../database/menu");
 var fileUpload = require('express-fileupload');
 var sha1 = require('sha1');
 var validate=require('../utils/validate');
-var middleware=require('middleware');
+var middleware=require('./middleware');
 
 
 

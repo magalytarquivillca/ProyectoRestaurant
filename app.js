@@ -5,7 +5,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 //var indexRouter = require('./routes/index');
-var indexRestaurant = require('./routes/serviciosOrden');
+var indexRestaurant = require('./routes/serviciosRestaurant');
+var indexOrden = require('./routes/serviciosOrden');
+var indexCliente = require('./routes/serviciosCliente');
+var indexMenu = require('./routes/serviciosMenu');
+var indexFactura = require('./routes/serviciosFactura');
 
 var app = express();
 
@@ -21,6 +25,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', indexRouter);
 app.use('/',indexRestaurant);
+app.use('/',indexCliente);
+app.use('/',indexOrden);
+app.use('/',indexMenu);
+app.use('/',indexFactura);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

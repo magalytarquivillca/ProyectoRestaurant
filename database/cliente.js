@@ -7,8 +7,8 @@ var menuSchema = new mongoose.Schema({
     Correo : String,
 
     acceso:{
-    	method:String,
-    	services:String
+    	method:[],
+    	services:[]
     }
 });
 

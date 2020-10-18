@@ -4,12 +4,13 @@ var USER = require("../database/cliente");
 var fileUpload = require('express-fileupload');
 var sha1 = require('sha1');
 var validate=require('../utils/validate');
-var middleware=require('middleware');
+var middleware=require('./middleware');
 
 
 //SERVICIO POST
 router.post('/cliente', async(req, res)  => {
     var params = req.body;
+    //console.log(Object.keys(USER.schema.obj));
     if (validate.validarCliente(params,USER.schema.obj)!="true") {
         res.status(403).json(validate.validarCliente(params,USER.schema.obj));
         return;

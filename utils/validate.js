@@ -12,7 +12,7 @@ for (var i = 0; i < Object.keys(evalueDatos).length; i++) {
 
 	}
 	if (cont==0) {
-		msn=msn+Object.keys(evalueobj)[i]+" no existe - ";
+		msn=msn+Object.keys(evalueDatos)[i]+" no existe - ";
 	}
 }
 if (msn!="") {
@@ -140,7 +140,7 @@ for (var i = 0; i < Object.keys(evalueDatos).length; i++) {
 
 	}
 	if (cont==0) {
-		msn=msn+Object.keys(evalueobj)[i]+" no existe - ";
+		msn=msn+Object.keys(evalueDatos)[i]+" no existe - ";
 	}
 }
 if (msn!="") {
@@ -206,13 +206,13 @@ for (var i = 0; i < Object.keys(evalueDatos).length; i++) {
 		if (Object.keys(sendDatos)[j]==Object.keys(evalueDatos)[i]) {
 			cont++;
 		}
-		if (Object.keys(sendDatos)[j]!=Object.keys(evalueDatos)[i]&&Object.keys(evalueDatos)[i]=="accesos") {
+		if (Object.keys(evalueDatos)[i]=="acceso") {
 			cont++;
 		}
 
 	}
 	if (cont==0) {
-		msn=msn+Object.keys(evalueobj)[i]+" no existe - ";
+		msn=msn+Object.keys(evalueDatos)[i]+" no existe - ";
 	}
 }
 if (msn!="") {
@@ -224,22 +224,41 @@ if (sendDatos.Nombre!=""||sendDatos.Nombre!=null) {
 	if (sendDatos.ApellidoP!=""||sendDatos.ApellidoP!=null) {
 		if (sendDatos.ApellidoM!=""||sendDatos.ApellidoM!=null) {
 			if (sendDatos.CI!=""||sendDatos.CI!=null) {
+				/*if (parseInt(sendDatos.CI)!=0&&parseInt(sendDatos.CI)!=null) {
+                    msn = "Existen problemas en la base de datos";
+                    return msn;
+                }*/
+
 				if (sendDatos.lugardeenvio!=""||sendDatos.lugardeenvio!=null) {
 					
-					if (sendDatos.acceso==""||sendDatos.acceso==null) {
-						var acceso={};
-						acceso["method"]=["POST","GET","GET","GET","DELETE","GET","GET","PUT","GET"]
-						acceso["services"]=["/orden","/orden","/restaurant","/menu","/orden","/factura","/cliente","/cliente","/getfile"]
-						sendDatos.acceso=acceso;
-					}else {
-						msn="no puede añadir los accesos sin administracion";
-						return msn;
-					}
-					if (sendDatos.acceso!=""||sendDatos.acceso!=null) {
-						msn="true";
-						return msn; 
+					if (sendDatos.Correo!=""||sendDatos.Correo!=null) {
+
+                        if (!/^[\w\.]+@[\w\.]+\.\w{3,3}$/.test(sendDatos.Correo)) {
+                            msn="el email tiene datos incorrectos";
+                            return msn;
+                            /*msn = "Existen problemas en la base de datos";
+                            return msn;*/
+                        }
+
+                        if (sendDatos["acceso"]==""||sendDatos["acceso"]==null) {
+                            var acceso={};
+                            acceso["method"]=["POST","GET","GET","GET","DELETE","GET","GET","PUT","GET"]
+                            acceso["services"]=["/orden","/orden","/restaurant","/menu","/orden","/factura","/cliente","/cliente","/getfile"]
+                            sendDatos["acceso"]=acceso;
+                        }else {
+                            msn="no puede añadir los accesos sin administracion";
+                            return msn;
+                        }
+
+                        if (sendDatos["acceso"]!=""||sendDatos["acceso"]!=null) {
+                            msn="true";
+                             return msn;
+                        } else {
+                            msn="no se pudo añadir los accesos";
+                            return msn;
+                        }
 					} else {
-						msn="no se pudo añadir los accesos";
+						msn="no se pudo añadir el email";
 						return msn;
 					}
 				} else {

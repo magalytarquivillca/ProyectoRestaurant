@@ -1,6 +1,6 @@
 var a = require ("jsonwebtoken");
 var b = require ("../database/restaurante");
-var c = (req, res, next) => {
+var c = async(req, res, next) => {
     var t = req.headers ["authorization"];
     if(t==null || t==""){
         res.status(403).json({ error : "Token nulo"});

@@ -25,7 +25,7 @@ router.post('/cliente', async(req, res)  => {
 
 router.get("/cliente",middleware, (req, res) => {
     var params = req.query;
-    console.log(params);
+    //console.log(params);
     var limit = 100;
     if (params.limit != null) {
     limit = parseInt(params.limit);
@@ -93,7 +93,7 @@ router.post("/indexlogincliente", async(req,res)=>{
     }
     var results = await USER.find({Nombre: datos.Nombre, CI: datos.CI});
     if (results.length == 1) {
-        console.log(results);
+        //console.log(results);
         var token = JWT.sign({
             exp: Math.floor(Date.now() / 1000)*(60*60),
             data: results[0].id

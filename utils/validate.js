@@ -18,7 +18,7 @@ for (var i = 0; i < Object.keys(evalueDatos).length; i++) {
 		if (Object.keys(evalueDatos)[i]=="fotolugar") {
 			cont++;
 		}
-		if (Object.keys(sendDatos)[j]=="ubicacion") {
+		if (Object.keys(evalueDatos)[i]=="ubicacion") {
 			cont++;
 		}
 
@@ -32,23 +32,23 @@ if (msn!="") {
 	return msn;
 }
 
-if (sendDatos.nombre!=""||sendDatos.nombre!=null) {
-	if (sendDatos.nit!=""||sendDatos.nit!=null) {
-		if (sendDatos.propietario!=""||sendDatos.propietario!=null) {
-			if (sendDatos.calle!=""||sendDatos.calle!=null) {
-				if (sendDatos.telefono!=""||sendDatos.telefono!=null) {
+if (sendDatos.nombreRestaurante!=""&&sendDatos.nombreRestaurante!=null) {
+	if (sendDatos.nit!=""&&sendDatos.nit!=null) {
+		if (sendDatos.propietario!=""&&sendDatos.propietario!=null) {
+			if (sendDatos.calle!=""&&sendDatos.calle!=null) {
+				if (sendDatos.telefono!=""&&sendDatos.telefono!=null) {
 					if (sendDatos.ubicacion==""||sendDatos.ubicacion==null) {
 						var coordenadas={};
-						coordenadas['log']=params.longitud;
-						coordenadas['lat']=params.latitud;
+						coordenadas['log']=sendDatos.longitud;
+						coordenadas['lat']=sendDatos.latitud;
 						sendDatos["ubicacion"]=coordenadas;
 					}
-					if (sendDatos.ubicacion!=""||sendDatos.ubicacion!=null) {
+					if (sendDatos.ubicacion!=""&&sendDatos.ubicacion!=null) {
 						if (sendDatos.logo!=""||sendDatos.logo!=null) {
 							if (sendDatos.fechaderegistro==""||sendDatos.fechaderegistro==null) {
 								sendDatos["fechaderegistro"] = new Date();
 							}
-							if (sendDatos.fechaderegistro!=""||sendDatos.fechaderegistro!=null) {
+							if (sendDatos.fechaderegistro!=""&&sendDatos.fechaderegistro!=null) {
 								if (sendDatos.fotolugar!=""||sendDatos.fotolugar!=null) {
 									msn="true";
 									return msn;
@@ -98,10 +98,15 @@ for (var i = 0; i < Object.keys(evalueDatos).length; i++) {
 		if (Object.keys(sendDatos)[j]==Object.keys(evalueDatos)[i]) {
 			cont++;
 		}
-
+		if (Object.keys(evalueDatos)[i]=="fechaderegistro") {
+			cont++;
+		}
+		if (Object.keys(evalueDatos)[i]=="fotografia_del_producto") {
+			cont++;
+		}
 	}
 	if (cont==0) {
-		msn=msn+Object.keys(evalueobj)[i]+" no existe - ";
+		msn=msn+Object.keys(evalueDatos)[i]+" no existe - ";
 	}
 }
 if (msn!="") {
@@ -109,13 +114,13 @@ if (msn!="") {
 	return msn;
 }
 
-if (sendDatos.Nombre!=""||sendDatos.Nombre!=null) {
-	if (sendDatos.precio!=""||sendDatos.precio!=null) {
-		if (sendDatos.descripcion!=""||sendDatos.descripcion!=null) {
+if (sendDatos.NombreMenu!=""&&sendDatos.NombreMenu!=null) {
+	if (sendDatos.precioMenu!=""&&sendDatos.precioMenu!=null) {
+		if (sendDatos.descripcion!=""&&sendDatos.descripcion!=null) {
 			if (sendDatos.fechaderegistro==""||sendDatos.fechaderegistro==null) {
 				sendDatos["fechaderegistro"] = new Date();
 			}
-			if (sendDatos.fechaderegistro!=""||sendDatos.fechaderegistro!=null) {
+			if (sendDatos.fechaderegistro!=""&&sendDatos.fechaderegistro!=null) {
 				if (sendDatos.fotografia_del_producto!=""||sendDatos.fotografia_del_producto!=null) {
 					msn="true";
 					return msn;
@@ -161,10 +166,10 @@ if (msn!="") {
 }
 //params["fechaderegistro"] = new Date();   ?
 
-if (sendDatos.idmenu!=""||sendDatos.idmenu!=null) {
-	if (sendDatos.idrestaurant!=""||sendDatos.idrestaurant!=null) {
-		if (sendDatos.idcliente!=""||sendDatos.idcliente!=null) {
-			if (sendDatos.cantidad!=""||sendDatos.cantidad!=null) {
+if (sendDatos.idmenu!=""&&sendDatos.idmenu!=null) {
+	if (sendDatos.idrestaurant!=""&&sendDatos.idrestaurant!=null) {
+		if (sendDatos.idcliente!=""&&sendDatos.idcliente!=null) {
+			if (sendDatos.cantidad!=""&&sendDatos.cantidad!=null) {
 				if (parseInt(sendDatos.cantidad)!=0&&parseInt(sendDatos.cantidad)!=null) {
 					msn="no es un dato numerico valido";
 					return msn;

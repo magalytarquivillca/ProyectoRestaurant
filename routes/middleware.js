@@ -27,12 +27,9 @@ var c = async(req, res, next) => {
     }
     var i = req.method;
     var j = h;
-    console.log(g);
+    //console.log(g);
     for (var ii=0; ii < g.method.length; ii++){
-    console.log(i);
-    console.log(j);
-    console.log(g.method[ii]);
-    console.log(g.services[ii]);
+
         if(i==g.method[ii] && j==g.services[ii]){
             next();
             return;

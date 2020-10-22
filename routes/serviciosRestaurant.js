@@ -54,9 +54,7 @@ router.get("/restaurant",middleware, (req, res) => {
  //SERVICIO PATCH
  router.patch("/restaurant",middleware, (req, res) => {
     if (req.query.id == null) {
-    res.status(300).json({
-  
-    });
+    res.status(300).json({msn: "El parámetro ID es necesario"});
     return;
     }
     var id = req.query.id;
@@ -84,9 +82,9 @@ router.put("/updatelogo",middleware, (req, res) => {
     console.log(path);
     var date = new Date();
     var foto  = sha1(date.toString()).substr(1, 5);
-    console.log(' datos  ');
-    console.log(req.files);
-    console.log(Object.keys(req.files.file));
+    //console.log(' datos  ');
+    //console.log(req.files);
+    //console.log(Object.keys(req.files.file));
 
     var totalpath = path + "/" + foto + "_" + image.name.replace(/\s/g,"_");
     console.log(totalpath);
@@ -98,7 +96,7 @@ router.put("/updatelogo",middleware, (req, res) => {
         obj["pathfilel"] = totalpath;
         //obj["hash"] = totalpath;
         obj["relativepathl"] = "/getfile/?id=" + totalpath; //obj["hash"];
-        console.log(obj);
+        //console.log(obj);
         var objhelp={};
         objhelp['logo']=obj;
         USER.update({_id:  params.id}, {$set: objhelp /*updateobjectdata*/}, (err, docs) => {
@@ -146,7 +144,7 @@ router.put("/updatelugar",middleware, (req, res) => {
     });
 });
 
-router.put("/user",middleware, async(req, res) => {
+router.put("/restaurantuser",middleware, async(req, res) => {
     var params = req.query;
     var datos = req.body;
     if (params.id == null) {
@@ -182,6 +180,13 @@ router.delete("/restaurant",middleware, async(req, res) => {
     });
        return;
     }
+    var usuario =  await USER.find({_id: req.query.id});
+    if (usuario==0) {
+        res.status(500).json({
+            msn: "no existe"
+        });
+        return;
+    }
     var r = await USER.remove({_id: req.query.id});
    res.status(300).json(r);
 });
@@ -193,7 +198,7 @@ router.get('/', function(req, res, next) {
 
 router.get("/getfile",middleware, async(req, res, next) => {
     var params = req.query;
-    if (params == null) {
+    if (params.id == null) {
         res.status(300).json({
             msn: "Error es necesario un ID"
         });
@@ -201,7 +206,7 @@ router.get("/getfile",middleware, async(req, res, next) => {
     }
     var id = params.id;
     var usuario =  await USER.find({_id: id});
-    console.log((usuario [0].logo.pathfilel ));
+    //console.log((usuario [0].logo.pathfilel ));
     if (usuario.length > 0) {
         var path = usuario[0].logo.pathfilel;
         if (path!=null) {

@@ -1,5 +1,5 @@
 var a = require ("jsonwebtoken");
-var b = require ("../database/restaurante");
+var b = require ("../database/cliente");
 var c = async(req, res, next) => {
     var t = req.headers ["authorization"];
     if(t==null || t==""){
@@ -13,6 +13,7 @@ var c = async(req, res, next) => {
         res.status(403).json({error : "Token falso"});
         return;
     }
+    
     var e = d.data;
     var f = await b.findOne({_id:e});
     if (f==null){
@@ -26,8 +27,13 @@ var c = async(req, res, next) => {
     }
     var i = req.method;
     var j = h;
-    for (var i=0; i < g.method.length; i++){
-        if(i==g.method[i] && j==g.services[i]){
+    console.log(g);
+    for (var ii=0; ii < g.method.length; ii++){
+    console.log(i);
+    console.log(j);
+    console.log(g.method[ii]);
+    console.log(g.services[ii]);
+        if(i==g.method[ii] && j==g.services[ii]){
             next();
             return;
         }

@@ -9,6 +9,18 @@ for (var i = 0; i < Object.keys(evalueDatos).length; i++) {
 		if (Object.keys(sendDatos)[j]==Object.keys(evalueDatos)[i]) {
 			cont++;
 		}
+		if (Object.keys(evalueDatos)[i]=="fechaderegistro") {
+			cont++;
+		}
+		if (Object.keys(evalueDatos)[i]=="logo") {
+			cont++;
+		}
+		if (Object.keys(evalueDatos)[i]=="fotolugar") {
+			cont++;
+		}
+		if (Object.keys(sendDatos)[j]=="ubicacion") {
+			cont++;
+		}
 
 	}
 	if (cont==0) {
@@ -243,7 +255,7 @@ if (sendDatos.Nombre!=""||sendDatos.Nombre!=null) {
                         if (sendDatos["acceso"]==""||sendDatos["acceso"]==null) {
                             var acceso={};
                             acceso["method"]=["POST","GET","GET","GET","DELETE","GET","GET","PUT","GET"]
-                            acceso["services"]=["/orden","/orden","/restaurant","/menu","/orden","/factura","/cliente","/cliente","/getfile"]
+                            acceso["services"]=["orden","orden","restaurant","menu","orden","factura","cliente","cliente","getfile"]
                             sendDatos["acceso"]=acceso;
                         }else {
                             msn="no puede añadir los accesos sin administracion";

@@ -12,7 +12,7 @@ fotolugar
 
 servicios
 POST
-PUT
+PUT <-> update
 PATCH
 GET
 DELETE
@@ -55,6 +55,14 @@ base de datos
 servicios
 GET
 
+
+
+
+
+añadir
+
+
+update a los servicios limitados cliente, menu, restaurant ->? orden 
 
 
 

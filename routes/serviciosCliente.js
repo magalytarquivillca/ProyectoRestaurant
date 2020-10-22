@@ -5,7 +5,7 @@ var fileUpload = require('express-fileupload');
 var sha1 = require('sha1');
 var validate=require('../utils/validate');
 var middleware=require('./middleware');
-
+var JWT= require('jsonwebtoken')
 
 //SERVICIO POST
 router.post('/cliente', async(req, res)  => {
@@ -62,7 +62,7 @@ router.put("/cliente",middleware,(req,res)=>{
         return;
     }
 
-    var filtro=["Nombre","ApellidoP","ApellidoM","CI"];
+    var filtro=["Nombre","ApellidoP","ApellidoM","CI","Correo"];
     var llaves=Object.keys(datos);
     var actualizado={};
     for (var i = 0; i < llaves.length; i++) {
@@ -80,7 +80,6 @@ router.put("/cliente",middleware,(req,res)=>{
 });
 
 
-
 // sesion del usuario
 router.post("/indexlogincliente", async(req,res)=>{
     var datos = req.body;
@@ -94,11 +93,12 @@ router.post("/indexlogincliente", async(req,res)=>{
     }
     var results = await USER.find({Nombre: datos.Nombre, CI: datos.CI});
     if (results.length == 1) {
+        console.log(results);
         var token = JWT.sign({
-            exp: Math.floor(Date.now() / 1000)+(60*60),
+            exp: Math.floor(Date.now() / 1000)*(60*60),
             data: results[0].id
         },'contraseña');
-
+        console.log(token);
         res.status(200).json({msn: "Bienvenido " + datos.Nombre , token:token });
         return;
     }
